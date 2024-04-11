@@ -9,9 +9,8 @@ import { getFieldValue, getRecord }     from "lightning/uiRecordApi";
 
 // Importing APEX methods
 import getTaxFillingStatusOptions       from "@salesforce/apex/takeHomePayHelper.getTaxFillingStatusOptions";
-import getStandardDeductionAmount       from "@salesforce/apex/takeHomePayHelper.getStandardDeductionAmount";
-import getTaxRate                       from "@salesforce/apex/takeHomePayHelper.getTaxRate";
-import getTaxCustomSetting              from "@salesforce/apex/takeHomePayHelper.getTaxCustomSetting";
+import calculateTax                     from "@salesforce/apex/takeHomePayHelper.calculateTax";
+
 
 // Defining the TakeHomePay class
 export default class TakeHomePay extends LightningElement {
@@ -20,75 +19,17 @@ export default class TakeHomePay extends LightningElement {
   @api recordId;
 
   salary;
-  taxRate;
   takeHomePay;
-  taxableIncome;
-  taxRatesRecord;
   socialSecurity;
   federalIncomeTax;
-  taxBracketRecords;
   medicareWithholding;
-  standardDeductionAmount;
-  standardDeductionRecords;
   taxFillingStatusOptions = [];
   selectedTaxFillingStatus = "Single";
-
-
-
-
-
-
-
-
-
-
-
 
   // Event handler for tax filling status change
   handleTaxFillingStatusChange(event) {
     this.selectedTaxFillingStatus = event.target.value;
-    this.calculate();
-  }
-
-  // Method to calculate take-home pay
-  calculate() {
-
-    // Calculating federal income tax
-    this.federalIncomeTax     = this.taxableIncome * ( this.taxRate / 100 );
-
-    // Calculating social security and medicare withholding
-    this.socialSecurity       = (this.taxRatesRecord.Social_Security_Rate__c/100)       * this.salary;
-    this.medicareWithholding  = (this.taxRatesRecord.Medicare_Withholding_Rate__c/100)  * this.salary;
-
-    // Calculating take-home pay
-    this.takeHomePay =  this.salary           -
-                        this.federalIncomeTax -
-                        this.socialSecurity   -
-                        this.medicareWithholding;
-  }
-
-  setStandardDeductionAmount() {
-
-    // Determining standard deduction amount based on tax filling status
-    this.standardDeductionAmount = this.standardDeductionRecords.find( item => {
-      return item.Tax_Filling_Status__c === this.selectedTaxFillingStatus;
-    } ).Amount__c;
-  }
-
-  setTaxRate() {
-
-    // Calculating taxable income
-    this.taxableIncome = this.salary - this.standardDeductionAmount;
-
-    console.log('tax bracket records are ::: ')
-    console.log( JSON.stringify( this.taxBracketRecords ) );
-    // Determining tax rate based on taxable income
-
-      this.taxRate        = this.taxBracketRecords.find( item => {
-        return item.Minimum_Value__c < this.taxableIncome && item.Maximum_Value__c > this.taxableIncome;
-      } ).Tax_rate__c;
-
-
+    this.calculateTax();
   }
 
   // Wired function to fetch salary data
@@ -96,40 +37,24 @@ export default class TakeHomePay extends LightningElement {
   salaryHandler( { data } ) {
     if ( data ) {
       this.salary = getFieldValue( data, FIELD_SALARY );
-      this.calculate();
-    }
-  }
-  @wire( getStandardDeductionAmount, {taxFillingStatus: '$selectedTaxFillingStatus'} )
-  getStandardDeductionAmountHandler( { data, error } ) {
-    if ( data ) {
-      this.standardDeductionAmount = data;
-      this.taxableIncome = this.salary - this.standardDeductionAmount;
-    }
-    if ( error ) {
-      console.error( error );
+      this.calculateTax();
     }
   }
 
-  @wire( getTaxRate, { taxFillingStatus: "$selectedTaxFillingStatus", amount: "$taxableIncome" } )
-  getTaxRateHandler( { data, error } ) {
-    if ( data ) {
-      this.taxRate = data;
-    }
-    if ( error ) {
-      console.error( error );
-    }
+  calculateTax() {
+    console.log('calculateTax is getting called')
+      calculateTax( { salary: this.salary, taxFillingStatus: this.selectedTaxFillingStatus } ).then( result => {
+        console.log('calculateTax apex is called')
+        this.socialSecurity      = result.socialSecurity;
+        this.medicareWithholding = result.medicareWithholding;
+        this.federalIncomeTax    = result.federalIncomeTax;
+        this.takeHomePay         = result.takeHomePay;
+
+      } ).catch( error => {
+        console.error( error );
+      } );
   }
 
-  @wire( getTaxCustomSetting )
-  getTaxCustomSettingHandler( { data, error } ) {
-    if ( data ) {
-      this.socialSecurity = data.Social_Security_Rate__c;
-      this.medicareWithholding = data.Medicare_Withholding_Rate__c;
-    }
-    if ( error ) {
-      console.error( error );
-    }
-  }
 
   // Wired function to fetch tax filling status options
   @wire( getTaxFillingStatusOptions )

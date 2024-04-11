@@ -4,20 +4,24 @@
 
 public without sharing class takeHomePayHelper {
 
+    @AuraEnabled(Cacheable=true)
     public static Map<String, Decimal> calculateTax(Decimal salary, String taxFillingStatus) {
         Map<String, Decimal> result = new Map<String, Decimal>();
 
         Tax__c taxCustomSetting = getTaxCustomSetting();
-        Decimal socialSecurity = salary * (taxCustomSetting.Social_Security_Rate__c/100);
-        Decimal medicareWithholding = salary * (taxCustomSetting.Medicare_Withholding_Rate__c/100);
+        Decimal socialSecurity = (salary * (taxCustomSetting.Social_Security_Rate__c/100)).setScale(2);
+        Decimal medicareWithholding = (salary * (taxCustomSetting.Medicare_Withholding_Rate__c/100)).setScale(2);
         result.put('socialSecurity', socialSecurity);
         result.put('medicareWithholding', medicareWithholding);
 
         Decimal standardDeductionAmount = getStandardDeductionAmount(taxFillingStatus);
         Decimal taxableAmount = salary - standardDeductionAmount;
         Decimal taxRate = getTaxRate(taxFillingStatus, taxableAmount);
-        Decimal federalIncomeTax = taxableAmount * (taxRate/100);
+        Decimal federalIncomeTax = (taxableAmount * (taxRate/100)).setScale(2);
         result.put('federalIncomeTax', federalIncomeTax);
+
+        Decimal takeHomePay = (salary - federalIncomeTax - socialSecurity - medicareWithholding).setScale(2);
+        result.put('takeHomePay', takeHomePay);
 
         return result;
     }
