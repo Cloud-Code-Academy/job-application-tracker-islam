@@ -3,9 +3,10 @@
  */
 
 // Importing necessary modules and functions
-import { api, LightningElement, wire }  from "lwc";
-import FIELD_SALARY                     from "@salesforce/schema/Job__c.Salary__c";
-import { getFieldValue, getRecord }     from "lightning/uiRecordApi";
+import { api, LightningElement, wire }      from "lwc";
+import FIELD_SALARY                         from "@salesforce/schema/Job__c.Salary__c";
+import FIELD_SingleStandardDeductionAmount  from "@salesforce/schema/Standard_Deduction__c";
+import { getFieldValue, getRecord }         from "lightning/uiRecordApi";
 
 // Importing APEX methods
 import getTaxFillingStatusOptions       from "@salesforce/apex/takeHomePayHelper.getTaxFillingStatusOptions";
@@ -23,6 +24,7 @@ export default class TakeHomePay extends LightningElement {
   socialSecurity;
   federalIncomeTax;
   medicareWithholding;
+  standardDeductionAmount;
   taxFillingStatusOptions = [];
   selectedTaxFillingStatus = "Single";
 
@@ -41,14 +43,17 @@ export default class TakeHomePay extends LightningElement {
     }
   }
 
+  @wire ( getRecord)
+
   calculateTax() {
     console.log('calculateTax is getting called')
       calculateTax( { salary: this.salary, taxFillingStatus: this.selectedTaxFillingStatus } ).then( result => {
         console.log('calculateTax apex is called')
-        this.socialSecurity      = result.socialSecurity;
-        this.medicareWithholding = result.medicareWithholding;
-        this.federalIncomeTax    = result.federalIncomeTax;
-        this.takeHomePay         = result.takeHomePay;
+        this.socialSecurity           = result.socialSecurity;
+        this.medicareWithholding      = result.medicareWithholding;
+        this.federalIncomeTax         = result.federalIncomeTax;
+        this.takeHomePay              = result.takeHomePay;
+        this.standardDeductionAmount  = result.standardDeductionAmount;
 
       } ).catch( error => {
         console.error( error );
@@ -68,6 +73,29 @@ export default class TakeHomePay extends LightningElement {
     if ( error ) {
       console.error( error );
     }
+  }
+
+  salaryChangeHandler(event) {
+    if ( event.target.value < this.standardDeductionAmount ) {
+      event.target.setCustomValidity( "Must be greater than " + this.standardDeductionAmount );
+      event.target.reportValidity();
+    } else {
+      this.resetValidity(event);
+      this.salary = event.target.value;
+      this.calculateTax();
+    }
+  }
+
+  blurHandler(event) {
+    if ( event.target.value < this.standardDeductionAmount ) {
+      event.target.value = this.salary;
+      this.resetValidity(event);
+    }
+  }
+
+  resetValidity(event) {
+    event.target.setCustomValidity( "" );
+    event.target.reportValidity();
   }
 
 }

@@ -15,6 +15,7 @@ public without sharing class takeHomePayHelper {
         result.put('medicareWithholding', medicareWithholding);
 
         Decimal standardDeductionAmount = getStandardDeductionAmount(taxFillingStatus);
+        result.put('standardDeductionAmount', standardDeductionAmount);
         Decimal taxableAmount = salary - standardDeductionAmount;
         Decimal taxRate = getTaxRate(taxFillingStatus, taxableAmount);
         Decimal federalIncomeTax = (taxableAmount * (taxRate/100)).setScale(2);
@@ -70,7 +71,4 @@ public without sharing class takeHomePayHelper {
                 AND Minimum_Value__c < :amount
                 AND Maximum_Value__c > :amount].Tax_rate__c;
     }
-
-
-
 }

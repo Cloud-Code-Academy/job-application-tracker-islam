@@ -3,17 +3,14 @@
 -->
 <!-- Take Home Pay Component -->
 <template>
-  <lightning-card label="main-card" class="main-card" hide-header="true">
+  <lightning-card label="main-card" class="main-card" title="Take-home Pay Estimation">
+
     <div class="slds-grid slds-gutters">
       <!-- Left Side -->
       <div class="slds-col slds-size_1-of-3">
         <span>
           <div class="left-side">
             <div class="left-side-content-container">
-                <!-- Take-home Pay Title -->
-              <div class="take-home-title">
-                <h1>Take-home Pay Estimation</h1>
-              </div>
                 <!-- Tax Filling Status Dropdown -->
               <div class="tax-filling-status-container">
                 <lightning-combobox
@@ -23,6 +20,7 @@
                   placeholder="Select Filling Status"
                   options={taxFillingStatusOptions}
                   onchange={handleTaxFillingStatusChange}></lightning-combobox>
+                <lightning-input type="number" label="Salary" value={salary} min=13851 onchange={salaryChangeHandler} onblur={blurHandler}></lightning-input>
               </div>
             </div>
           </div>
@@ -67,4 +65,13 @@
       </div>
     </div>
   </lightning-card>
+    <template lwc:if={takeHomePay}>
+      <div class="child-container">
+        <c-paycheck-breakdown take-home-pay-from-parent={takeHomePay}></c-paycheck-breakdown>
+      </div>
+
+    </template>
+
+
+
 </template>

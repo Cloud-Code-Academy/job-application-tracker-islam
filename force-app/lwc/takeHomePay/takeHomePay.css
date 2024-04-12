@@ -28,7 +28,7 @@ td:first-child {
 /* Style for the last row */
 tr:last-child {
     font-weight: bolder;
-    font-size: 20px;
+    font-size: 15px;
     }
 
 
@@ -58,4 +58,8 @@ tr:last-child {
     align-items: center;
     text-align: center;
     height: 100%;
+    }
+
+.child-container{
+    margin-top: 1rem;
     }
