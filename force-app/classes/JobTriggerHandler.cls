@@ -20,12 +20,13 @@ public with sharing class JobTriggerHandler extends TriggerHandler{
     public override void beforeInsert() {
         for (Job__c currentJob: newJobList) {
             if (currentJob.Company__c != null) {
-                Contact primaryContact = [  SELECT  Id, FirstName, LastName
+                System.debug('current Job Company ID is ' +  currentJob.Company__c);
+                List<Contact> contacts = [  SELECT  Id, FirstName, LastName
                                             FROM    Contact
                                             WHERE   AccountId = :currentJob.Company__c];
 
-                if (primaryContact != null) {
-                    currentJob.Primary_Contact__c = primaryContact.Id;
+                if (contacts.size()> 0) {
+                    currentJob.Primary_Contact__c = contacts.get(0).Id;
                 }
 
             }

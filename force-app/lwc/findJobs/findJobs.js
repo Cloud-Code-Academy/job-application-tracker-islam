@@ -1,7 +1,7 @@
 /**
  * Created by islam on 4/8/2024.
  */
-import { LightningElement }   from "lwc";
+import { LightningElement, track } from "lwc";
 import { ShowToastEvent} from "lightning/platformShowToastEvent";
 
 // Import APEX
@@ -30,13 +30,7 @@ export default class FindJobs extends LightningElement {
   columns = columns;
 
   connectedCallback() {
-    getJobs()
-      .then( result => {
-        this.jobRecords = result;
-      } )
-      .catch( error => {
-        console.error( error );
-      } );
+    this.fetchJobs();
   }
 
   handleSelection(event) {
@@ -54,7 +48,11 @@ export default class FindJobs extends LightningElement {
 
   }
 
+
   handleSaveJobs(event) {
+    console.log( this.selectedJobs );
+    console.log('selected jobs are ::: ')
+    console.log( JSON.stringify( this.selectedJobs ) );
     insertJobs( { jobs: this.selectedJobs } )
       .then( result => {
         console.log( "jobs inserted successfully" );
@@ -68,6 +66,7 @@ export default class FindJobs extends LightningElement {
         this.showToast( "Success", msg, "Success" );
       } )
       .catch( error => {
+        console.error('insertJobs failed')
         console.error( error );
       } );
   }
@@ -95,6 +94,16 @@ export default class FindJobs extends LightningElement {
       variant
     } );
     this.dispatchEvent( event );
+  }
+
+  fetchJobs() {
+    getJobs()
+      .then( result => {
+        this.jobRecords = result;
+      } )
+      .catch( error => {
+        console.error( error );
+      } );
   }
 
 }
