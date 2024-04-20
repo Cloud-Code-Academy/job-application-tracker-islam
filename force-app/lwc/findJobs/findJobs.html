@@ -7,30 +7,31 @@
   <lightning-card >
     <div class="datatable-container">
       <lightning-datatable
-        key-field="id"
-        data={jobRecords}
-        columns={columns}
-        class="datatable"
-        onrowselection={handleSelection}>
+        key-field      = "id"
+        data           = {jobRecords}
+        columns        = {columns}
+        class          = "datatable"
+        onrowselection = {handleSelection}>
+
       </lightning-datatable>
     </div>
     <div class="buttons-container">
       <div>
-        <lightning-button variant="brand-outline"
-                          label="Save Jobs"
-                          title="Save Jobs"
-                          disabled={isButtonDisabled}
-                          onclick={handleSaveJobs}
-                          class="btn btn-Save slds-m-left_x-small">
+        <lightning-button variant  = "brand-outline"
+                          label    = "Save Jobs"
+                          title    = "Save Jobs"
+                          disabled = {isButtonDisabled}
+                          onclick  = {handleSaveJobs}
+                          class    = "btn btn-Save slds-m-left_x-small">
         </lightning-button>
       </div>
       <div>
-        <lightning-button variant="brand"
-                          label="Create Applications"
-                          title="Create Applications"
-                          disabled={isButtonDisabled}
-                          onclick={handleCreateApplications}
-                          class="btn btn-Create slds-m-left_x-small">
+        <lightning-button variant  = "brand"
+                          label    = "Create Applications"
+                          title    = "Create Applications"
+                          disabled = {isButtonDisabled}
+                          onclick  = {handleCreateApplications}
+                          class    = "btn btn-Create slds-m-left_x-small">
         </lightning-button>
       </div>
     </div>

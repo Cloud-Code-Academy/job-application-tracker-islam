@@ -8,14 +8,17 @@ private class cleanUpStaleJobsApplicationsTest {
     static void testCleanUpStaleJobsApplications() {
         Date followUpDate = Date.today()-30;
 
+        // Create test job applications with follow-up date 30 days ago and various statuses
         Job_Application__c jobApplicationSaved30        = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Saved');
         Job_Application__c jobApplicationApplying30     = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Applying');
         Job_Application__c jobApplicationApplied30      = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Applied');
         Job_Application__c jobApplicationInterviewing30 = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Interviewing');
         Job_Application__c jobApplicationNegotiating30  = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Negotiating');
 
+        // Adjust follow-up date for another test scenario
         followUpDate = followUpDate - 1;
 
+        // Create test job applications with follow-up date 31 days ago and various statuses
         Job_Application__c jobApplicationSaved31        = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Saved');
         Job_Application__c jobApplicationApplying31     = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Applying');
         Job_Application__c jobApplicationApplied31      = new Job_Application__c(Follow_Up_Date__c = followUpDate, Status__c = 'Applied');

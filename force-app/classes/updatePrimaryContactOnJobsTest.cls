@@ -7,8 +7,8 @@ private class updatePrimaryContactOnJobsTest {
     @IsTest
     static void testUpdatePrimaryContactOnJobs() {
 
-        Account accountWithRelatedContact = new Account(Name='accountWithRelatedContact');
-        Account accountWithoutRelatedContact = new Account(Name='accountWithoutRelatedContact');
+        Account accountWithRelatedContact       = new Account(Name='accountWithRelatedContact');
+        Account accountWithoutRelatedContact    = new Account(Name='accountWithoutRelatedContact');
 
         List<Account> accounts = new List<Account>();
         accounts.add(accountWithoutRelatedContact);
@@ -16,10 +16,10 @@ private class updatePrimaryContactOnJobsTest {
         insert accounts;
 
 
-        Job__c jobWithAccountWithRelatedContact = new Job__c(Company__c = accountWithRelatedContact.Id);
-        Job__c jobWithAccountWithoutRelatedContact = new Job__c(Company__c = accountWithoutRelatedContact.Id);
-        Job__c jobWithoutAccount = new Job__c();
-        List<Job__c> jobs = new List<Job__c>();
+        Job__c jobWithAccountWithRelatedContact     = new Job__c(Company__c = accountWithRelatedContact.Id);
+        Job__c jobWithAccountWithoutRelatedContact  = new Job__c(Company__c = accountWithoutRelatedContact.Id);
+        Job__c jobWithoutAccount                    = new Job__c();
+        List<Job__c> jobs                           = new List<Job__c>();
         jobs.add(jobWithoutAccount);
         jobs.add(jobWithAccountWithRelatedContact);
         jobs.add(jobWithAccountWithoutRelatedContact);
@@ -38,13 +38,16 @@ private class updatePrimaryContactOnJobsTest {
         updatePrimaryContactOnJobs.scheduleJob('testJob1');
         Test.stopTest();
 
-        List<Contact> contacts = [SELECT Id, AccountId FROM Contact];
+        List<Contact> contacts = [  SELECT Id, AccountId
+                                    FROM Contact];
         Map<Id, Contact> idToContactMap = new Map<Id, Contact>();
         for (Contact currentContact: contacts) {
             idToContactMap.put(currentContact.AccountId, currentContact);
         }
 
-        List<Job__c> updatedJobs = [SELECT Id, Company__c, Primary_Contact__c FROM Job__c];
+        List<Job__c> updatedJobs = [SELECT Id, Company__c, Primary_Contact__c
+                                    FROM Job__c];
+
         for (Job__c currentJob: updatedJobs) {
             if (currentJob.Company__c == null) {
                 system.assert(currentJob.Primary_Contact__c == null);
@@ -54,6 +57,5 @@ private class updatePrimaryContactOnJobsTest {
                 system.assert(currentJob.Primary_Contact__c == null);
             }
         }
-
     }
 }

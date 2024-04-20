@@ -3,14 +3,15 @@
  */
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    background-color: #FFEDD8;
+    width            : 100%;
+    border-collapse  : collapse;
+    background-color : #FFEDD8;
+
     }
 th, td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: center;
+    border     : 1px solid black;
+    padding    : 8px;
+    text-align : center;
     }
 
 .table-container{

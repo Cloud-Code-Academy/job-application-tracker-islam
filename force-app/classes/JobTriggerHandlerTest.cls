@@ -8,19 +8,20 @@ private class JobTriggerHandlerTest {
     static void testJobTriggerHandler_populatePrimaryContact() {
 
         // Account with Contact
-        Account accountWithContact = new Account(Name='accountWithContact');
-        insert accountWithContact;
-        Contact contact = new Contact(AccountId= accountWithContact.Id, LastName='Doe');
+        Account accountWithContact  = new Account(Name='accountWithContact');
+        insert  accountWithContact;
+
+        Contact contact             = new Contact(AccountId= accountWithContact.Id, LastName='Doe');
         insert contact;
 
         // Account without contact
         Account accountWithoutContact = new Account(Name='accountWithoutContact');
-        insert accountWithoutContact;
+        insert  accountWithoutContact;
 
-        List<Job__c> jobs = new List<Job__c>();
+        List<Job__c> jobs           = new List<Job__c>();
 
-        Job__c jobWithContact = new Job__c(Company__c = accountWithContact.Id);
-        Job__c jobWithoutContact = new Job__c();
+        Job__c jobWithContact       = new Job__c(Company__c = accountWithContact.Id);
+        Job__c jobWithoutContact    = new Job__c();
 
         jobs.add(jobWithoutContact);
         jobs.add(jobWithContact);
@@ -37,6 +38,5 @@ private class JobTriggerHandlerTest {
                 system.assert(currentJob.Primary_Contact__c == null);
             }
         }
-
     }
 }

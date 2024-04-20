@@ -57,12 +57,17 @@ private class sendReminderEmailsTest {
         List<Interview__c> interviews = new List<Interview__c>();
         for (Integer i = 0; i < 4; i++) {
 
-            Integer startHour = 9 + i;
-            Datetime startDateTime = Datetime.newInstance(Date.today().addDays(1), Time.newInstance(startHour, 0, 0, 0));
-            Datetime endDateTime = startDateTime.addHours(1);
+            Integer startHour       = 9 + i;
+            Date startDate          = Date.today().addDays(1);
+            Time startTime          = Time.newInstance(startHour, 0, 0, 0);
+
+            Datetime startDateTime  = Datetime.newInstance(startDate, startTime);
+            Datetime endDateTime    = startDateTime.addHours(1);
 
 
-            Interview__c interview = new Interview__c(Job_Application__c=jobApplication.Id, Start_Date_Time__c=startDateTime, End_Date_Time__c=endDateTime);
+            Interview__c interview = new Interview__c(  Job_Application__c = jobApplication.Id,
+                                                        Start_Date_Time__c = startDateTime,
+                                                        End_Date_Time__c   = endDateTime);
             interviews.add(interview);
         }
         insert interviews;

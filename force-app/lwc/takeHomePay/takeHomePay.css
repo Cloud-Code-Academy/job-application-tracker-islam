@@ -10,9 +10,9 @@ table {
     }
 
 td {
-    border: 1px solid #dddddd;
-    text-align: left;
-    padding: 8px;
+    border      : 1px solid #dddddd;
+    text-align  : left;
+    padding     : 8px;
     }
 
 /* Center text of the second column */
@@ -27,22 +27,22 @@ td:first-child {
 
 /* Style for the last row */
 tr:last-child {
-    font-weight: bolder;
-    font-size: 15px;
+    font-weight : bolder;
+    font-size   : 15px;
     }
 
 
 /* Container Styles */
 .table-container {
-    margin: 1.4rem;
+    margin          : 1.4rem;
     background-color: #FFEDD8;
     }
 
 /* Styles for the main card */
 .main-card h1 {
-    font-size: 20px;
-    font-weight: bolder;
-    text-align: center;
+    font-size   : 20px;
+    font-weight : bolder;
+    text-align  : center;
     }
 
 
@@ -52,12 +52,13 @@ tr:last-child {
     }
 
 .left-side {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    height: 100%;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    align-items     : center;
+    text-align      : center;
+    height          : 100%;
+
     }
 
 .child-container{

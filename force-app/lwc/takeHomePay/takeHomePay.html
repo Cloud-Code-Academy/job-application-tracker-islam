@@ -14,13 +14,19 @@
                 <!-- Tax Filling Status Dropdown -->
               <div class="tax-filling-status-container">
                 <lightning-combobox
-                  name="Tax Filling Status"
-                  label="Tax Filling Status"
-                  value={selectedTaxFillingStatus}
-                  placeholder="Select Filling Status"
-                  options={taxFillingStatusOptions}
-                  onchange={handleTaxFillingStatusChange}></lightning-combobox>
-                <lightning-input type="number" label="Salary" value={salary} min=13851 onchange={salaryChangeHandler} onblur={blurHandler}></lightning-input>
+                  name        = "Tax Filling Status"
+                  label       = "Tax Filling Status"
+                  value       = {selectedTaxFillingStatus}
+                  placeholder = "Select Filling Status"
+                  options     = {taxFillingStatusOptions}
+                  onchange    = {handleTaxFillingStatusChange}></lightning-combobox>
+                <lightning-input
+                  type     = "number"
+                  label    = "Salary"
+                  value    = {salary}
+                  min      = 13851
+                  onchange = {salaryChangeHandler}
+                  onblur   = {blurHandler}></lightning-input>
               </div>
             </div>
           </div>

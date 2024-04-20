@@ -6,25 +6,6 @@ public with sharing class findJobsHelper {
 
     @AuraEnabled
     public static List<Job__c> insertJobs(List<Job__c> jobs) {
-        System.debug('jobs are ::: ');
-        System.debug(jobs);
-
-        /*
-        writing the logic in plain English first
-        Check if a company exists
-        Collect Company Names
-        Query these companies
-        Jobs                = Map <Company Name, Job>
-        existingAccounts    = Map <Company Name, Account>
-
-        Loop Jobs
-        check if existingAccounts keyset includes current company , if not > add to collection to get created
-
-        create Accounts
-        loop created accounts and add them to existingAccounts Map
-
-        Loop jobs map and update every job with account id from existing accounts map
-        */
 
         Set<String>          companyNames                   = collectCompanyNames(jobs);
         // Existing Companies in the Database
@@ -50,17 +31,16 @@ public with sharing class findJobsHelper {
 
     @AuraEnabled
     public static void insertJobApplications(List<Job__c> jobs) {
-        List<Job__c> updatedJobs = insertJobs(jobs);
-        List<Job_Application__c> jobApplications = new List<Job_Application__c>();
+        List<Job__c> updatedJobs                    = insertJobs(jobs);
+        List<Job_Application__c> jobApplications    = new List<Job_Application__c>();
 
         for (Job__c currentJob: updatedJobs) {
-            Job_Application__c newApplication = new Job_Application__c(
-                    Job__c = currentJob.Id,
-                    Applicant__c = UserInfo.getUserId(),
-                    Status__c = 'Saved',
-                    Application_Date__c = Date.today(),
-                    Follow_Up_Date__c = Date.today().addDays(7)
-            );
+            Job_Application__c newApplication   = new Job_Application__c(
+                            Job__c              = currentJob.Id,
+                            Applicant__c        = UserInfo.getUserId(),
+                            Status__c           = 'Saved',
+                            Application_Date__c = Date.today(),
+                            Follow_Up_Date__c   = Date.today().addDays(7));
             jobApplications.add(newApplication);
         }
         insert jobApplications;
@@ -73,7 +53,6 @@ public with sharing class findJobsHelper {
             if (currentJob.Company_Name__c != null) {
                 companyNames.add(currentJob.Company_Name__c);
             }
-
         }
         return companyNames;
     }
@@ -90,7 +69,6 @@ public with sharing class findJobsHelper {
             if (currentJob.Company_Name__c != null) {
                 companyNameToJobMap.put(currentJob.Company_Name__c, currentJob);
             }
-
         }
         return companyNameToJobMap;
     }
@@ -109,9 +87,7 @@ public with sharing class findJobsHelper {
         List<Account> accountsToBeCreated = new List<Account>();
         for (String currentCompanyName: companyNameToJobMap.keySet()) {
             if (!companyNameToAccountMap.keySet().contains(currentCompanyName)) {
-                Account newAccount = new Account(
-                        Name = currentCompanyName
-                );
+                Account newAccount = new Account(Name = currentCompanyName);
                 accountsToBeCreated.add(newAccount);
             }
         }
@@ -139,12 +115,10 @@ public with sharing class findJobsHelper {
         List<Job__c> allJobs = new List<Job__c>();
         allJobs.addAll(jobsWithAccountIDs);
         for (Job__c currentJob: jobs) {
-            System.debug('current job company is ::: ' + currentJob.Company_Name__c);
             if (currentJob.Company_Name__c == null) {
                 allJobs.add(currentJob);
             }
         }
-        System.debug('all jobs are ::: ' + allJobs);
         return allJobs;
     }
 }

@@ -24,35 +24,27 @@ const columns = [
 
 export default class FindJobs extends LightningElement {
   selectedJobs;
-  numberOfSelectedRows = 0;
-  isButtonDisabled = true;
-  jobRecords = [];
-  columns = columns;
+  numberOfSelectedRows  = 0;
+  isButtonDisabled      = true;
+  jobRecords            = [];
+  columns               = columns;
 
   connectedCallback() {
     this.fetchJobs();
   }
 
   handleSelection(event) {
-    this.selectedJobs = event.detail.selectedRows;
+    this.selectedJobs         = event.detail.selectedRows;
     this.numberOfSelectedRows = this.selectedJobs.length;
     if ( this.numberOfSelectedRows > 0 ) {
       this.isButtonDisabled = false;
     } else {
       this.isButtonDisabled = true;
     }
-
-    console.log( 'number of selected rows is ::: ' + this.numberOfSelectedRows );
-    console.log('updated selected rows are ::: ')
-    console.log( event.detail.selectedRows );
-
   }
 
 
   handleSaveJobs(event) {
-    console.log( this.selectedJobs );
-    console.log('selected jobs are ::: ')
-    console.log( JSON.stringify( this.selectedJobs ) );
     insertJobs( { jobs: this.selectedJobs } )
       .then( result => {
         console.log( "jobs inserted successfully" );
@@ -105,5 +97,4 @@ export default class FindJobs extends LightningElement {
         console.error( error );
       } );
   }
-
 }

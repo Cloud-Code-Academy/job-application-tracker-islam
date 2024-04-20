@@ -4,7 +4,10 @@
 
 public with sharing class updatePrimaryContactOnJobs implements Schedulable {
     public void execute(SchedulableContext context) {
-        List<Job__c> jobs = [SELECT Id, Company__c FROM Job__c WHERE Company__c != NULL AND Primary_Contact__c = NULL];
+        List<Job__c> jobs = [   SELECT  Id, Company__c
+                                FROM    Job__c
+                                WHERE   Company__c          != NULL
+                                AND     Primary_Contact__c   = NULL];
         Map<Id, Job__c> idToJobMap = new Map<Id, Job__c>();
         Set<Id> companyIds = new Set<Id>();
         for (Job__c currentJob: jobs) {
@@ -12,14 +15,13 @@ public with sharing class updatePrimaryContactOnJobs implements Schedulable {
             companyIds.add(currentJob.Company__c);
         }
 
-        System.debug('jobs are ::: ' + jobs);
-        List<Contact> contacts = [SELECT Id, AccountId FROM Contact WHERE AccountId IN :companyIds];
-        System.debug('after contacts line');
-        System.debug('company IDs are ::: ' + companyIds);
-        System.debug('contacts are ::: ' + contacts);
+        List<Contact> contacts = [  SELECT  Id, AccountId
+                                    FROM    Contact
+                                    WHERE   AccountId IN :companyIds];
+
         if (contacts.size() > 0) {
             Map<Id, Contact> idToContactMap = new Map<Id, Contact>();
-            List<Job__c> jobsToBeUpdated = new List<Job__c>();
+            List<Job__c> jobsToBeUpdated    = new List<Job__c>();
             for (Contact currentContact: contacts) {
                 idToContactMap.put(currentContact.AccountId, currentContact);
             }

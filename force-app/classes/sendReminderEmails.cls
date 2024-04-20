@@ -7,8 +7,8 @@ public with sharing class sendReminderEmails implements Schedulable {
     // This method executes scheduled tasks related to interviews for the next day.
     public void execute(SchedulableContext context) {
         // Calculate the beginning and end of tomorrow.
-        Datetime beginningOfTomorrow = Date.today().addDays(1);
-        Datetime endOfTomorrow = Date.today().addDays(2);
+        Datetime beginningOfTomorrow    = Date.today().addDays(1);
+        Datetime endOfTomorrow          = Date.today().addDays(2);
 
         // Query interviews scheduled for tomorrow.
         List<Interview__c> interviews = [
@@ -75,20 +75,20 @@ public with sharing class sendReminderEmails implements Schedulable {
         emailMessage.setSubject('Tomorrow\'s Interviews');
 
         // Set the email body with HTML content.
-        String htmlBody = '<html><body>';
-        htmlBody += 'Hello ' + interviews.get(0).Job_Application__r.Applicant__r.FirstName + ',<br/><br/>';
-        htmlBody += 'Here are the interviews scheduled for tomorrow:<br/><br/>';
-        htmlBody += '<table border="1" style="border: 1px solid black; border-collapse: collapse;">';
-        htmlBody += '<tr><th style="padding: 5px;">Job</th><th style="padding: 5px;">Date</th><th style="padding: 5px;">Location</th></tr>';
+        String htmlBody  = '<html><body>';
+        htmlBody        += 'Hello ' + interviews.get(0).Job_Application__r.Applicant__r.FirstName + ',<br/><br/>';
+        htmlBody        += 'Here are the interviews scheduled for tomorrow:<br/><br/>';
+        htmlBody        += '<table border="1" style="border: 1px solid black; border-collapse: collapse;">';
+        htmlBody        += '<tr><th style="padding: 5px;">Job</th><th style="padding: 5px;">Date</th><th style="padding: 5px;">Location</th></tr>';
 
         // Populate the interview details in the email body.
         for (Interview__c currentInterview : interviews) {
-            String interviewURL = baseUrl + '/' + currentInterview.Id;
-            htmlBody += '<tr>';
-            htmlBody += '<td style="padding: 5px;">' + '<a href="' + interviewURL + '">' + currentInterview.Job_Application__r.Job__r.Name + '</a>' + '</td>';
-            htmlBody += '<td style="padding: 5px;">' + currentInterview.Start_Date_Time__c.format() + '</td>';
-            htmlBody += '<td style="padding: 5px;">' + currentInterview.Job_Application__r.Job__r.Location__c + '</td>';
-            htmlBody += '</tr>';
+            String interviewURL  = baseUrl + '/' + currentInterview.Id;
+            htmlBody            += '<tr>';
+            htmlBody            += '<td style="padding: 5px;">' + '<a href="' + interviewURL + '">' + currentInterview.Job_Application__r.Job__r.Name + '</a>' + '</td>';
+            htmlBody            += '<td style="padding: 5px;">' + currentInterview.Start_Date_Time__c.format() + '</td>';
+            htmlBody            += '<td style="padding: 5px;">' + currentInterview.Job_Application__r.Job__r.Location__c + '</td>';
+            htmlBody            += '</tr>';
         }
 
         htmlBody += '</table><br/><br/>';

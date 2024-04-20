@@ -28,10 +28,5 @@ export default class PaycheckBreakdown extends LightningElement {
     this.biWeekly  = (this.monthly      /  2).toFixed(2);
     this.weekly    = (this.biWeekly     /  2).toFixed(2);
     this.yearly    = this.takeHomePay;
-
   }
-
-
-
-
 }

@@ -7,9 +7,9 @@ private class InterviewTriggerHandlerTest {
     @IsTest
     static void testInterviewTrigger_checkOverlaps() {
 
-        Integer thisYear = Date.today().year();
+        Integer thisYear  = Date.today().year();
         Integer thisMonth = Date.today().month();
-        Integer tomorrow  =Date.today().day() + 1;
+        Integer tomorrow  = Date.today().day() + 1;
 
         String errorMessage = '';
 

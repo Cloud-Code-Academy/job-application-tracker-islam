@@ -23,11 +23,12 @@ public with sharing class InterviewHelper {
                 if (    (newInterviewStartUnix >= existingInterviewStartUnix && newInterviewStartUnix < existingInterviewEndUnix) ||
                         (newInterviewEndUnix   > existingInterviewStartUnix && newInterviewEndUnix   <= existingInterviewEndUnix)
                 ) {
-                    newInterview.addError(  'Time of this interview overlaps with another interview.'          + ' <br/>' +
-                            ' Interview Name: '             + existingInterview.Name                                + ' <br/>' +
-                            ' Interview ID: '               + existingInterview.Id                                  + ' <br/>' +
-                            ' Interview Start Date Time: '  + String.valueOf(existingInterview.Start_Date_Time__c)  + ' <br/>' +
-                            ' Interview End Date Time: '    + String.valueOf(existingInterview.End_Date_Time__c), false);
+                    newInterview.addError(
+                               'Time of this interview overlaps with another interview.'                               + ' <br/>' +
+                                    ' Interview Name: '             + existingInterview.Name                                + ' <br/>' +
+                                    ' Interview ID: '               + existingInterview.Id                                  + ' <br/>' +
+                                    ' Interview Start Date Time: '  + String.valueOf(existingInterview.Start_Date_Time__c)  + ' <br/>' +
+                                    ' Interview End Date Time: '    + String.valueOf(existingInterview.End_Date_Time__c), false);
 
                 }
             }

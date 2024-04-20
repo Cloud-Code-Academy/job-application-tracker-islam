@@ -30,7 +30,10 @@ private class jobApplicationTriggerHandlerTest {
         insert jobApplications;
         Test.stopTest();
 
-        List<Job_Application__c> jobApplicationsWithTasks = [SELECT Id, Status__c, (SELECT Id, Subject FROM Tasks) FROM Job_Application__c];
+        List<Job_Application__c> jobApplicationsWithTasks = [SELECT Id,
+                                                                    Status__c,
+                                                                    (SELECT Id, Subject FROM Tasks)
+                                                             FROM    Job_Application__c];
 
         for (Job_Application__c currentJobApplication: jobApplicationsWithTasks) {
 
@@ -55,9 +58,6 @@ private class jobApplicationTriggerHandlerTest {
             if (currentJobApplication.Status__c == 'Closed') {
                 System.assertEquals(2, currentJobApplication.Tasks.size());
             }
-
         }
-
-
     }
 }
