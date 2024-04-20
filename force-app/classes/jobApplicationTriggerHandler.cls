@@ -30,11 +30,10 @@ public with sharing class jobApplicationTriggerHandler extends TriggerHandler{
 
             // Check if status is not blank
             if (String.isNotBlank(currentJobApplication.Status__c)) {
-                tasks.addAll(jobApplicationTriggerHelper.assignTasksBasedOnStatus(currentJobApplication.Status__c, currentJobApplication.Id));
+                tasks.addAll(jobApplicationHelper.assignTasksBasedOnStatus(currentJobApplication.Status__c, currentJobApplication.Id));
             }
-
-
         }
+        System.debug('handler tasks are ::: ' + tasks);
         insert tasks; // Insert assigned tasks
 
     }
@@ -52,7 +51,7 @@ public with sharing class jobApplicationTriggerHandler extends TriggerHandler{
             // Check if status is not blank and has changed
             if (String.isNotBlank(currentJobApplication.Status__c) &&
                     currentJobApplication.Status__c != oldJobApplicationMap.get(currentJobApplication.Id).Status__c) {
-                tasks.addAll(jobApplicationTriggerHelper.assignTasksBasedOnStatus(currentJobApplication.Status__c, currentJobApplication.Id));
+                tasks.addAll(jobApplicationHelper.assignTasksBasedOnStatus(currentJobApplication.Status__c, currentJobApplication.Id));
             }
 
         }

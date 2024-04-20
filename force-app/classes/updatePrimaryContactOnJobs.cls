@@ -12,7 +12,11 @@ public with sharing class updatePrimaryContactOnJobs implements Schedulable {
             companyIds.add(currentJob.Company__c);
         }
 
+        System.debug('jobs are ::: ' + jobs);
         List<Contact> contacts = [SELECT Id, AccountId FROM Contact WHERE AccountId IN :companyIds];
+        System.debug('after contacts line');
+        System.debug('company IDs are ::: ' + companyIds);
+        System.debug('contacts are ::: ' + contacts);
         if (contacts.size() > 0) {
             Map<Id, Contact> idToContactMap = new Map<Id, Contact>();
             List<Job__c> jobsToBeUpdated = new List<Job__c>();
@@ -29,8 +33,8 @@ public with sharing class updatePrimaryContactOnJobs implements Schedulable {
         }
     }
 
-    public static void scheduleJob() {
+    public static void scheduleJob(String jobName) {
         String cronExp = '0 0 0 * * ?';
-        System.schedule('updatePrimaryContactOnJobs', cronExp, new updatePrimaryContactOnJobs());
+        System.schedule(jobName, cronExp, new updatePrimaryContactOnJobs());
     }
 }

@@ -42,7 +42,9 @@ public with sharing class sendReminderEmails implements Schedulable {
 
         // Iterate through applicant IDs and send emails containing their interviews.
         for (Id currentApplicantID : applicantIdToTheirInterviewsMap.keySet()) {
-            sendEmail(applicantIdToTheirInterviewsMap.get(currentApplicantID));
+            if (applicantIdToTheirInterviewsMap.get(currentApplicantID).size() > 0) {
+                sendEmail(applicantIdToTheirInterviewsMap.get(currentApplicantID));
+            }
         }
     }
 
@@ -99,6 +101,7 @@ public with sharing class sendReminderEmails implements Schedulable {
         // Send the email message.
         List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
         emailMessages.add(emailMessage);
+        System.debug('emailMessages ::: ' + emailMessages);
         List<Messaging.SendEmailResult>  sendEmailResults = Messaging.sendEmail(emailMessages);
     }
 
