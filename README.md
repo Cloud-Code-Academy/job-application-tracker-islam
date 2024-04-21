@@ -451,16 +451,18 @@ Holds Jooble API Key
 
 
 ## Color Palette
-<table style="border-collapse: collapse;">
-  <tr>
+<table style="border-collapse: collapse; width: 100%;">
+  <tr style="vertical-align: middle;">
     <td style="padding: 10px; border: 1px solid white; text-align: center;">#FFEDD8</td>
-    <td style="padding: 20px; border: 1px solid white; text-align: center;">
-      <div style="width: 100px; height: 100px; background-color: #FFEDD8; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center;">
+    <td style="padding: 10px; border: 1px solid white; text-align: center;">
+      <div style="display: flex; justify-content: center; align-items: center; width: 100px; height: 100px; background-color: #FFEDD8; border-radius: 50%; padding: 10px;">
         <div style="width: 80px; height: 80px; background-color: #FFEDD8; border-radius: 50%;"></div>
       </div>
     </td>
   </tr>
 </table>
+
+
 
 ## Permission Sets
 
