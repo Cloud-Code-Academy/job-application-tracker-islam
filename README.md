@@ -453,15 +453,11 @@ Holds Jooble API Key
 ## Color Palette
 <table style="border-collapse: collapse;">
   <tr>
-    <th style="padding: 10px; border: 1px solid white;">Color Code</th>
-    <th style="padding: 10px; border: 1px solid white;">Color</th>
-  </tr>
-  <tr>
-    <td style="padding: 10px; border: 1px solid white;">#FFEDD8</td>
-    <td style="padding: 10px; border: 1px solid white;">
-      <svg width="100" height="100">
-        <circle cx="50" cy="50" r="40" fill="#FFEDD8" />
-      </svg>
+    <td style="padding: 10px; border: 1px solid white; text-align: center;">#FFEDD8</td>
+    <td style="padding: 20px; border: 1px solid white; text-align: center;">
+      <div style="width: 100px; height: 100px; background-color: #FFEDD8; border-radius: 50%; display: inline-flex; justify-content: center; align-items: center;">
+        <div style="width: 80px; height: 80px; background-color: #FFEDD8; border-radius: 50%;"></div>
+      </div>
     </td>
   </tr>
 </table>
