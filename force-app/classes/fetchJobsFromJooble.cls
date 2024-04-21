@@ -14,7 +14,10 @@ public with sharing class fetchJobsFromJooble {
         HttpRequest JoobleHttpRequest   = setupHttpRequest(apiKey);
         Http JoobleHttp                 = new Http();
         HttpResponse JoobleHttpResponse = JoobleHttp.send(JoobleHttpRequest);
-        List<Job__c> jobs               = processResponse(JoobleHttpResponse);
+        List<Job__c> jobs = new List<Job__c>();
+        if (JoobleHttpResponse.getStatusCode() == 200) {
+            jobs = processResponse(JoobleHttpResponse);
+        }
 
         return jobs;
     }
@@ -47,8 +50,6 @@ public with sharing class fetchJobsFromJooble {
     private static List<Job__c> processResponse(HttpResponse httpResponse) {
         // Process the response
         String responseBody = httpResponse.getBody();
-        System.debug('Response status code: '   + httpResponse.getStatusCode());
-        System.debug('Response status: '        + httpResponse.getStatus());
 
         Map<String, Object> responseMap = (Map<String, Object>) JSON.deserializeUntyped(responseBody);
         List<Object> responseJobs       = (List<Object>) responseMap.get('jobs');

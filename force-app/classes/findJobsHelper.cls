@@ -81,8 +81,6 @@ public with sharing class findJobsHelper {
     }
 
     private static List<Account> createNewAccounts(Map<String, Job__c> companyNameToJobMap, Map<String, Account> companyNameToAccountMap) {
-        System.debug( 'companyNameToJobMap ::: ' +  companyNameToJobMap);
-        System.debug( 'companyNameToAccountMap ::: ' + companyNameToAccountMap);
 
         List<Account> accountsToBeCreated = new List<Account>();
         for (String currentCompanyName: companyNameToJobMap.keySet()) {
