@@ -1,0 +1,83 @@
+<!--
+  This component was created by Islam on 4/3/2024.
+-->
+<!-- Take Home Pay Component -->
+<template>
+  <lightning-card label="main-card" class="main-card" title="Take-home Pay Estimation">
+
+    <div class="slds-grid slds-gutters">
+      <!-- Left Side -->
+      <div class="slds-col slds-size_1-of-3">
+        <span>
+          <div class="left-side">
+            <div class="left-side-content-container">
+                <!-- Tax Filling Status Dropdown -->
+              <div class="tax-filling-status-container">
+                <lightning-combobox
+                  name        = "Tax Filling Status"
+                  label       = "Tax Filling Status"
+                  value       = {selectedTaxFillingStatus}
+                  placeholder = "Select Filling Status"
+                  options     = {taxFillingStatusOptions}
+                  onchange    = {handleTaxFillingStatusChange}></lightning-combobox>
+                <lightning-input
+                  type     = "number"
+                  label    = "Salary"
+                  value    = {salary}
+                  min      = 13851
+                  onchange = {salaryChangeHandler}
+                  onblur   = {blurHandler}></lightning-input>
+              </div>
+            </div>
+          </div>
+        </span>
+      </div>
+      <!-- Right Side -->
+      <div class="slds-col slds-size_2-of-3">
+        <span>
+          <div class="right-side">
+            <!-- Table Container -->
+            <div class="table-container">
+              <table>
+                <!-- Salary Row -->
+                <tr>
+                  <td>Salary</td>
+                  <td>{salary}</td>
+                </tr>
+                <!-- Federal Income Tax Row -->
+                <tr>
+                  <td>Federal Income Tax</td>
+                  <td>{federalIncomeTax}</td>
+                </tr>
+                <!-- Social Security Row -->
+                <tr>
+                  <td>Social Security</td>
+                  <td>{socialSecurity}</td>
+                </tr>
+                <!-- Medicare Withholding Row -->
+                <tr>
+                  <td>Medicare Withholding</td>
+                  <td>{medicareWithholding}</td>
+                </tr>
+                <!-- Take-home Pay Row -->
+                <tr>
+                  <td>Take-home Pay</td>
+                  <td>{takeHomePay}</td>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </span>
+      </div>
+    </div>
+  </lightning-card>
+    <template lwc:if={takeHomePay}>
+      <div class="child-container">
+        <c-paycheck-breakdown take-home-pay-from-parent={takeHomePay}></c-paycheck-breakdown>
+      </div>
+
+    </template>
+
+
+
+</template>

@@ -1,0 +1,66 @@
+/**
+ * CSS styles for a table and its container
+ * Created by islam on 4/3/2024.
+ */
+
+/* Table Styles */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    }
+
+td {
+    border      : 1px solid #dddddd;
+    text-align  : left;
+    padding     : 8px;
+    }
+
+/* Center text of the second column */
+td:nth-child(2) {
+    text-align: center;
+    }
+
+/* Set the width of the first column */
+td:first-child {
+    width: 200px;
+    }
+
+/* Style for the last row */
+tr:last-child {
+    font-weight : bolder;
+    font-size   : 15px;
+    }
+
+
+/* Container Styles */
+.table-container {
+    margin          : 1.4rem;
+    background-color: #FFEDD8;
+    }
+
+/* Styles for the main card */
+.main-card h1 {
+    font-size   : 20px;
+    font-weight : bolder;
+    text-align  : center;
+    }
+
+
+/* Styles for the tax filling status container */
+.tax-filling-status-container {
+    margin: 0px 20px;
+    }
+
+.left-side {
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+    align-items     : center;
+    text-align      : center;
+    height          : 100%;
+
+    }
+
+.child-container{
+    margin-top: 1rem;
+    }

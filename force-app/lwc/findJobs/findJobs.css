@@ -1,0 +1,17 @@
+/**
+ * Created by islam on 4/8/2024.
+ */
+
+.datatable-container{
+    margin: 1.2rem;
+    border: 2px solid #f3f3f3;
+
+    }
+.buttons-container{
+    margin-left : 1.1rem;
+    display     : flex;
+    }
+
+ .btn-Save{
+     background-color: #891652 !important;
+     }
